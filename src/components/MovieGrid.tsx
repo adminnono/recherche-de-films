@@ -1,7 +1,7 @@
-import React from 'react';
-import { Film, Search as SearchIcon } from 'lucide-react';
-import { Movie } from '../types/movie';
-import { MovieCard } from './MovieCard';
+import React from "react";
+import { Film, Search as SearchIcon } from "lucide-react";
+import { Movie } from "../types/movie";
+import { MovieCard } from "./MovieCard";
 
 interface MovieGridProps {
   movies: Movie[];
@@ -97,7 +97,7 @@ export const MovieGrid: React.FC<MovieGridProps> = ({
           </h2>
         </div>
       )}
-      
+
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
         {movies.map((movie) => (
           <MovieCard

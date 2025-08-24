@@ -52,6 +52,13 @@ function App() {
     setViewMode("favorites");
   }, [clearMovieDetails]);
 
+  // Ajoute ce useEffect pour la recherche initiale
+  React.useEffect(() => {
+    if (viewMode === "search" && searchQuery === "") {
+      handleSearch("a");
+    }
+  }, [handleSearch, viewMode, searchQuery]);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900">
       {viewMode === "details" && movieDetails ? (
@@ -70,12 +77,12 @@ function App() {
               <div className="flex items-center justify-between">
                 {/* Logo */}
                 <div className="flex items-center space-x-2">
-                  <div className="p-2 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg">
-                    <Film className="w-8 h-8 text-white" />
-                  </div>
-                  <h1 className="text-2xl font-bold text-white">
-                    Recherche de films
-                  </h1>
+                  <a href="/" className="flex items-center space-x-2">
+                    <div className="p-2 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg">
+                      <Film className="w-8 h-8 text-white" />
+                    </div>
+                    <h1 className="text-2xl font-bold text-white">CinéMatch</h1>
+                  </a>
                 </div>
 
                 {/* Navigation */}

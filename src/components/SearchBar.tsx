@@ -1,5 +1,5 @@
-import React, { useState, useCallback } from 'react';
-import { Search, X } from 'lucide-react';
+import React, { useState, useCallback } from "react";
+import { Search, X } from "lucide-react";
 
 interface SearchBarProps {
   onSearch: (query: string) => void;
@@ -7,7 +7,7 @@ interface SearchBarProps {
 }
 
 export const SearchBar: React.FC<SearchBarProps> = ({ onSearch, loading }) => {
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState("");
 
   const handleSubmit = useCallback(
     (e: React.FormEvent) => {
@@ -18,18 +18,18 @@ export const SearchBar: React.FC<SearchBarProps> = ({ onSearch, loading }) => {
   );
 
   const handleClear = useCallback(() => {
-    setQuery('');
-    onSearch('');
+    setQuery("");
+    onSearch("");
   }, [onSearch]);
 
   const handleInputChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const value = e.target.value;
       setQuery(value);
-      
+
       // Recherche automatique quand l'utilisateur arrête de taper
       if (value.length === 0) {
-        onSearch('');
+        onSearch("");
       }
     },
     [onSearch]
