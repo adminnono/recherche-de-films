@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from "react";
-import { Film, Heart, Search as SearchIcon } from "lucide-react";
+import { Film, Heart, Menu, X, Search as SearchIcon } from "lucide-react";
 import { SearchBar } from "./components/SearchBar";
 import { MovieGrid } from "./components/MovieGrid";
 import { FavoritesList } from "./components/FavoritesList";
@@ -16,6 +16,12 @@ function App() {
   const [searchQuery, setSearchQuery] = useState("");
   const { movies, loading, error, searchMovies } = useMovies();
   const { favorites, isFavorite, toggleFavorite } = useFavorites();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  // Fonction pour fermer le menu mobile lors du changement de vue
+  const handleViewModeChange = (mode: "search" | "favorites") => {
+    setViewMode(mode);
+    setMobileMenuOpen(false);
+  };
   const {
     movieDetails,
     loading: detailsLoading,
@@ -85,8 +91,8 @@ function App() {
                   </a>
                 </div>
 
-                {/* Navigation */}
-                <nav className="flex space-x-4">
+                {/* Navigation Desktop */}
+                <nav className="hidden md:flex space-x-4">
                   <button
                     onClick={() => setViewMode("search")}
                     className={`flex items-center space-x-2 px-4 py-2 rounded-xl transition-all duration-200 ${
@@ -116,9 +122,69 @@ function App() {
                     )}
                   </button>
                 </nav>
+
+                {/* Bouton Hamburger Mobile */}
+                <button
+                  onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                  className="md:hidden p-2 rounded-lg bg-white/10 text-white hover:bg-white/20 transition-all duration-200"
+                >
+                  {mobileMenuOpen ? (
+                    <X className="w-6 h-6" />
+                  ) : (
+                    <Menu className="w-6 h-6" />
+                  )}
+                </button>
+              </div>
+
+              {/* Menu Mobile */}
+              <div
+                className={`md:hidden transition-all duration-300 ease-in-out ${
+                  mobileMenuOpen
+                    ? "max-h-48 opacity-100 mt-4"
+                    : "max-h-0 opacity-0 overflow-hidden"
+                }`}
+              >
+                <nav className="flex flex-col space-y-2 pb-4">
+                  <button
+                    onClick={() => handleViewModeChange("search")}
+                    className={`flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 ${
+                      viewMode === "search"
+                        ? "bg-blue-600 text-white shadow-lg"
+                        : "bg-white/10 text-gray-300 hover:bg-white/20 hover:text-white"
+                    }`}
+                  >
+                    <SearchIcon className="w-5 h-5" />
+                    <span>Recherche</span>
+                  </button>
+
+                  <button
+                    onClick={() => handleViewModeChange("favorites")}
+                    className={`flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 relative ${
+                      viewMode === "favorites"
+                        ? "bg-red-600 text-white shadow-lg"
+                        : "bg-white/10 text-gray-300 hover:bg-white/20 hover:text-white"
+                    }`}
+                  >
+                    <Heart className="w-5 h-5" />
+                    <span>Favoris</span>
+                    {favorites.length > 0 && (
+                      <span className="absolute top-2 right-4 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                        {favorites.length}
+                      </span>
+                    )}
+                  </button>
+                </nav>
               </div>
             </div>
           </header>
+
+          {/* Overlay pour fermer le menu mobile */}
+          {mobileMenuOpen && (
+            <div
+              className="md:hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-40"
+              onClick={() => setMobileMenuOpen(false)}
+            />
+          )}
 
           {/* Main Content */}
           <main className="container mx-auto px-4 py-8">
